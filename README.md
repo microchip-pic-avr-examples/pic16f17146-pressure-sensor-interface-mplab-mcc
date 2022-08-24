@@ -17,7 +17,7 @@ This code example demonstrates how to interface a pressure sensor with different
 -	Microchip PIC16F1xxxx Series Device Support (DFP) [1.13.178 or newer](https://packs.download.microchip.com/)
 
 ## Hardware Used
--	[PIC16F17146 Curiosity Nano Board](https://www.microchip.com)
+-	[PIC16F17146 Curiosity Nano Board](https://www.microchip.com/development-tool/EV72J15A)
 -	[Curiosity Nano Base Board](https://www.microchip.com/development-tool/AC164162)
 -	[Proto Click](https://www.mikroe.com/proto-click)
 -	Resistors (15 KΩ, 820 KΩ) for Gain
@@ -35,7 +35,7 @@ Specifications:
 - Overall differential voltage output range: -2.4 to 31.0 mV
 - Drive Current: 100 µA
 
-**Pressure Sensor and Internal circuit arrangement:**
+**Pressure Sensor Internal circuit, Pins and kpa vs mV graph:**
 
 ![Sensor IC](images/SensorInternalCircuit.svg)
 
@@ -49,7 +49,7 @@ Below is the implementation circuit overview block diagram using PIC16F17146:
 
 ![Circuit Block Diagram](images/DiffPressureSensorBlockDiagram.svg)
 
-DAC 1 is an 8-bit buffered DAC that can be used to source pressure sensor which required a constant excitation current of 100 µA. Op-Amp can be used to amplify a differential signal.
+DAC1 is an 8-bit buffered DAC that can be used to source pressure sensor which required a constant excitation current of 100 µA. Op-Amp can be used to amplify a differential signal.
 
 **8-bit DAC and Shunt resistor Calculations:**
 
@@ -69,20 +69,20 @@ So, the maximum DAC output voltage (as Bridge resistance decreases as pressure i
 
     22 KΩ * 100 µA = 2200 mV
 
-Hence, DAC reference voltage cannot be set to FVR (4.048 mV) in case if VDD is 3.3 V as DAC needs to give an output of more than 2048 mV.
+Therefore, DAC reference voltage should be above 2.048 V. When VDD is 3.3 V, FVR with 4.096 V can not be used.
 
-DAC Reference voltage is VDD:
+DAC Reference voltage is set to VDD:
 
     3.3 V
 
-DAC 1 count can give output:
+DAC step count can give output resolution of:
 
-    3.3/256 = 0.1289 V or 12.89 mV
+    3.3/256 = 0.01289 V or 12.89 mV
 
-DAC 1 count can vary current in circuit:
+Therefore, DAC step count can vary current in the pressure sensor circuit:
 
     12.89 mV/22 KΩ = 0.586 uA;
-which means we can get good accuracy (less than 1 µA) using 8-Bit buffered DAC.
+which means circuit can be excited with good accuracy (less than 1 µA) using 8-Bit buffered DAC.
 
 
 **12-bit Diff ADC and OPA gain calculations for Pressure measurement:**
@@ -104,12 +104,12 @@ Typical Range:
     Max output at Op-Amp:
         55 * 31 mV = 1705 mV
 
-Hence, ADCC positive voltage reference can be set to 2.048 V and can be given by FVR.
+Therefore, ADCC positive voltage reference can be set to 2.048 V and can be given by FVR.
 
 **Pressure measurement calculations:**
 
 
-    Sensor output (in mV) = 0.84 * Pressure applied (in kPa) – 2.25 [*** Linear equation from the datasheet graph]
+    Sensor output (in mV) = 0.84 * Pressure applied (in kPa) – 2.25 [*** Linear equation from the sensor datasheet graph]
 
     =>Pressure applied (in kPa) = (2.25 + Sensor output (in mV))/0.84
 
@@ -121,7 +121,7 @@ But,
     =>Sensor output (in mV) = Input signal given to ADCC / OPA Gain
 
     =>Sensor output (in mV) = (ADCC Count * (ADCC Vref / ADC Max count)) / OPA Gain ------------ Eq 2
-Hence from Eq 1 and Eq 2,
+Hence, from Eq 1 and Eq 2,
 
     =>Pressure applied (in kPa) = 2.97 + ((ADCC Count * (ADCC Vref / ADC Max count)) / OPA Gain) * 1.19
 
