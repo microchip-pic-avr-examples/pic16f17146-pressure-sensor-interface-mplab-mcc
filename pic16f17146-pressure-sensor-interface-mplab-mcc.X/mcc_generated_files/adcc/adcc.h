@@ -10,7 +10,7 @@
  * @version ADCC Driver Version 1.0.1
 */
 /*
-© [2022] Microchip Technology Inc. and its subsidiaries.
+© [2024] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -66,9 +66,7 @@ typedef enum
     pChannel_DAC2OUT =  0x3d,
     pChannel_FVR_Buffer1 =  0x3e,
     pChannel_FVR_Buffer2 =  0x3f,
-    CurrentP =  0x4,
-    DAC_OUTV =  0x14,
-    PressureP =  0x17
+    CurrentP =  0x4
 } adcc_posChannel_t;
 
 /**
@@ -78,6 +76,7 @@ typedef enum
 */
 typedef enum
 {
+    nChannel_OPA1OUT =  0x39,
     nChannel_VSS =  0x3a,
     nChannel_Temp =  0x3b,
     nChannel_DAC1OUT =  0x3c,

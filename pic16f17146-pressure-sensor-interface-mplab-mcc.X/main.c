@@ -11,7 +11,7 @@
 */
 
 /*
-© [2022] Microchip Technology Inc. and its subsidiaries.
+© [2024] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -39,7 +39,7 @@
 
 /*
  Pressure Sensor Related Equations
- * pressureSensoeOutput in mV = 0.84*pressureInKpa-2.25 // Equation described from Sensor datasheet graph
+ * pressureSensoeOutput in mV = 0.84*pressureInKpa-2.25 // Equation described from Sensor data sheet graph
  * pressureInKpa =( 2.25+ pressureSensoeOutput)/0.84
  * pressureInKpa = 2.97+pressureSensoeOutput*1.19
  * pressureInKpa = (2.97+(mVReadByADCC/OPAGain)*1.19)  ---- OPAGain is ~55 (820K/15K)
@@ -64,6 +64,9 @@
 
 #define DV_GRAPH                                // Uncomment this line to draw graph over Data Visualizer and set uint8_t val in DV
 
+#define DATA_STREAMER_START_BYTE        (0x03) //Macro that represents the byte that is sent to signify the beginning of the Data Streamer frame
+#define DATA_STREAMER_END_BYTE          (255 - DATA_STREAMER_START_BYTE) //Macro that represents the byte that is sent to signify the end of the Data Streamer frame
+
 #ifdef DV_GRAPH
 #define TMR0_RATE                       (1)      // update DV value in n ms
 #else
@@ -79,6 +82,9 @@
 static void FSM_Scheduler(void);
 static void SetSensorCurrent(void);
 static void ReadSensorValue(void);
+#ifdef DV_GRAPH
+static void DataStreamerByteWrite(uint8_t var);
+#endif
 
 
 /*----------------------------------------------------------------------------
@@ -99,7 +105,7 @@ void main(void)
     SYSTEM_Initialize();
     
     //Set the default interrupt handler for TMR0
-    Timer0_OverflowCallbackRegister(FSM_Scheduler);
+    Timer0.TimeoutCallbackRegister(FSM_Scheduler);
     
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -139,12 +145,7 @@ void main(void)
             else
             {
 #ifdef DV_GRAPH
-                while(!UART1.IsTxReady());
-                UART1.Write(0x5F);//start frame for DV is 0x5F
-                while(!UART1.IsTxReady());
-                UART1.Write(100);//Max Value ; ie 100% in case of error during DV
-                while(!UART1.IsTxReady());
-                UART1.Write(0xA0);//End frame for DV is 0xA0
+                DataStreamerByteWrite(100); //Max Value ; indicates error condition
 #else
                 printf("Hardware Connection Error \r\n");
 #endif
@@ -242,7 +243,7 @@ static void ReadSensorValue(void)
     float pressureInKpa = 0.0F;
     
     PIR6bits.ADTIF = 0;
-    ADCC_StartConversion(PressureP,PressureN);
+    ADCC_StartConversion(pChannel_OPA1OUT,PressureN);
     while (!PIR6bits.ADTIF);
     PIR6bits.ADTIF = 0;
     adcResult = ADCC_GetFilterValue();
@@ -270,12 +271,7 @@ static void ReadSensorValue(void)
     //print pressure percentage
     
 #ifdef DV_GRAPH
-    while(!UART1.IsTxReady());
-    UART1.Write(0x5F);//start frame for DV is 0x5F
-    while(!UART1.IsTxReady());
-    UART1.Write((uint8_t)percentage);
-    while(!UART1.IsTxReady());
-    UART1.Write(0xA0);//End frame for DV is 0xA0
+    DataStreamerByteWrite((uint8_t)percentage);
 #else
     printf("Pressure %d %%\n\n", (int16_t)percentage);
 #endif
@@ -302,6 +298,26 @@ static void FSM_Scheduler(void)
         timeCounter = 0;
     }
 }
+
+#ifdef DV_GRAPH
+/*============================================================================
+void DataStreamerByteWrite(uint8_t var)
+------------------------------------------------------------------------------
+Purpose: This function plots one byte variable in data visualizer
+Input  : Byte to be plotted
+Output : none
+Notes  : Refer data visualizer user guide (https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/UserGuides/50003001.pdf) to setup details.
+============================================================================*/
+void DataStreamerByteWrite(uint8_t var)
+{
+    while(!UART1.IsTxReady());
+    UART1.Write(DATA_STREAMER_START_BYTE);//start frame for DV is 0x5F
+    while(!UART1.IsTxReady());
+    UART1.Write(var);
+    while(!UART1.IsTxReady());
+    UART1.Write(DATA_STREAMER_END_BYTE);//End frame for DV is 0xA0
+}
+#endif
 
 /**
  End of File

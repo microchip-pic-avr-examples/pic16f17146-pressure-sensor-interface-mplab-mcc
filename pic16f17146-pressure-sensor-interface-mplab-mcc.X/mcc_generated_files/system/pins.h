@@ -12,7 +12,7 @@
 */
 
 /*
-© [2022] Microchip Technology Inc. and its subsidiaries.
+© [2024] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -68,7 +68,6 @@
 #define DAC1OUT_SetOpenDrain()       do { ODCONAbits.ODCA2 = 1; } while(0)
 #define DAC1OUT_SetAnalogMode()      do { ANSELAbits.ANSA2 = 1; } while(0)
 #define DAC1OUT_SetDigitalMode()     do { ANSELAbits.ANSA2 = 0; } while(0)
-
 // get/set IO_RA4 aliases
 #define CurrentP_TRIS                 TRISAbits.TRISA4
 #define CurrentP_LAT                  LATAbits.LATA4
@@ -88,7 +87,6 @@
 #define CurrentP_SetOpenDrain()       do { ODCONAbits.ODCA4 = 1; } while(0)
 #define CurrentP_SetAnalogMode()      do { ANSELAbits.ANSA4 = 1; } while(0)
 #define CurrentP_SetDigitalMode()     do { ANSELAbits.ANSA4 = 0; } while(0)
-
 // get/set IO_RB4 aliases
 #define OPA_N_IN_TRIS                 TRISBbits.TRISB4
 #define OPA_N_IN_LAT                  LATBbits.LATB4
@@ -108,7 +106,6 @@
 #define OPA_N_IN_SetOpenDrain()       do { ODCONBbits.ODCB4 = 1; } while(0)
 #define OPA_N_IN_SetAnalogMode()      do { ANSELBbits.ANSB4 = 1; } while(0)
 #define OPA_N_IN_SetDigitalMode()     do { ANSELBbits.ANSB4 = 0; } while(0)
-
 // get/set IO_RB7 aliases
 #define UART_TX1_TRIS                 TRISBbits.TRISB7
 #define UART_TX1_LAT                  LATBbits.LATB7
@@ -128,7 +125,6 @@
 #define UART_TX1_SetOpenDrain()       do { ODCONBbits.ODCB7 = 1; } while(0)
 #define UART_TX1_SetAnalogMode()      do { ANSELBbits.ANSB7 = 1; } while(0)
 #define UART_TX1_SetDigitalMode()     do { ANSELBbits.ANSB7 = 0; } while(0)
-
 // get/set IO_RC1 aliases
 #define LED_D7_TRIS                 TRISCbits.TRISC1
 #define LED_D7_LAT                  LATCbits.LATC1
@@ -148,7 +144,6 @@
 #define LED_D7_SetOpenDrain()       do { ODCONCbits.ODCC1 = 1; } while(0)
 #define LED_D7_SetAnalogMode()      do { ANSELCbits.ANSC1 = 1; } while(0)
 #define LED_D7_SetDigitalMode()     do { ANSELCbits.ANSC1 = 0; } while(0)
-
 // get/set IO_RC2 aliases
 #define OPA_OUT_TRIS                 TRISCbits.TRISC2
 #define OPA_OUT_LAT                  LATCbits.LATC2
@@ -168,47 +163,25 @@
 #define OPA_OUT_SetOpenDrain()       do { ODCONCbits.ODCC2 = 1; } while(0)
 #define OPA_OUT_SetAnalogMode()      do { ANSELCbits.ANSC2 = 1; } while(0)
 #define OPA_OUT_SetDigitalMode()     do { ANSELCbits.ANSC2 = 0; } while(0)
-
 // get/set IO_RC3 aliases
-#define OPA_N_IN_TRIS                 TRISCbits.TRISC3
-#define OPA_N_IN_LAT                  LATCbits.LATC3
-#define OPA_N_IN_PORT                 PORTCbits.RC3
-#define OPA_N_IN_WPU                  WPUCbits.WPUC3
-#define OPA_N_IN_OD                   ODCONCbits.ODCC3
-#define OPA_N_IN_ANS                  ANSELCbits.ANSC3
-#define OPA_N_IN_SetHigh()            do { LATCbits.LATC3 = 1; } while(0)
-#define OPA_N_IN_SetLow()             do { LATCbits.LATC3 = 0; } while(0)
-#define OPA_N_IN_Toggle()             do { LATCbits.LATC3 = ~LATCbits.LATC3; } while(0)
-#define OPA_N_IN_GetValue()           PORTCbits.RC3
-#define OPA_N_IN_SetDigitalInput()    do { TRISCbits.TRISC3 = 1; } while(0)
-#define OPA_N_IN_SetDigitalOutput()   do { TRISCbits.TRISC3 = 0; } while(0)
-#define OPA_N_IN_SetPullup()          do { WPUCbits.WPUC3 = 1; } while(0)
-#define OPA_N_IN_ResetPullup()        do { WPUCbits.WPUC3 = 0; } while(0)
-#define OPA_N_IN_SetPushPull()        do { ODCONCbits.ODCC3 = 0; } while(0)
-#define OPA_N_IN_SetOpenDrain()       do { ODCONCbits.ODCC3 = 1; } while(0)
-#define OPA_N_IN_SetAnalogMode()      do { ANSELCbits.ANSC3 = 1; } while(0)
-#define OPA_N_IN_SetDigitalMode()     do { ANSELCbits.ANSC3 = 0; } while(0)
-
-// get/set IO_RC4 aliases
-#define DAC_OUTV_TRIS                 TRISCbits.TRISC4
-#define DAC_OUTV_LAT                  LATCbits.LATC4
-#define DAC_OUTV_PORT                 PORTCbits.RC4
-#define DAC_OUTV_WPU                  WPUCbits.WPUC4
-#define DAC_OUTV_OD                   ODCONCbits.ODCC4
-#define DAC_OUTV_ANS                  ANSELCbits.ANSC4
-#define DAC_OUTV_SetHigh()            do { LATCbits.LATC4 = 1; } while(0)
-#define DAC_OUTV_SetLow()             do { LATCbits.LATC4 = 0; } while(0)
-#define DAC_OUTV_Toggle()             do { LATCbits.LATC4 = ~LATCbits.LATC4; } while(0)
-#define DAC_OUTV_GetValue()           PORTCbits.RC4
-#define DAC_OUTV_SetDigitalInput()    do { TRISCbits.TRISC4 = 1; } while(0)
-#define DAC_OUTV_SetDigitalOutput()   do { TRISCbits.TRISC4 = 0; } while(0)
-#define DAC_OUTV_SetPullup()          do { WPUCbits.WPUC4 = 1; } while(0)
-#define DAC_OUTV_ResetPullup()        do { WPUCbits.WPUC4 = 0; } while(0)
-#define DAC_OUTV_SetPushPull()        do { ODCONCbits.ODCC4 = 0; } while(0)
-#define DAC_OUTV_SetOpenDrain()       do { ODCONCbits.ODCC4 = 1; } while(0)
-#define DAC_OUTV_SetAnalogMode()      do { ANSELCbits.ANSC4 = 1; } while(0)
-#define DAC_OUTV_SetDigitalMode()     do { ANSELCbits.ANSC4 = 0; } while(0)
-
+#define OPA_P_IN_TRIS                 TRISCbits.TRISC3
+#define OPA_P_IN_LAT                  LATCbits.LATC3
+#define OPA_P_IN_PORT                 PORTCbits.RC3
+#define OPA_P_IN_WPU                  WPUCbits.WPUC3
+#define OPA_P_IN_OD                   ODCONCbits.ODCC3
+#define OPA_P_IN_ANS                  ANSELCbits.ANSC3
+#define OPA_P_IN_SetHigh()            do { LATCbits.LATC3 = 1; } while(0)
+#define OPA_P_IN_SetLow()             do { LATCbits.LATC3 = 0; } while(0)
+#define OPA_P_IN_Toggle()             do { LATCbits.LATC3 = ~LATCbits.LATC3; } while(0)
+#define OPA_P_IN_GetValue()           PORTCbits.RC3
+#define OPA_P_IN_SetDigitalInput()    do { TRISCbits.TRISC3 = 1; } while(0)
+#define OPA_P_IN_SetDigitalOutput()   do { TRISCbits.TRISC3 = 0; } while(0)
+#define OPA_P_IN_SetPullup()          do { WPUCbits.WPUC3 = 1; } while(0)
+#define OPA_P_IN_ResetPullup()        do { WPUCbits.WPUC3 = 0; } while(0)
+#define OPA_P_IN_SetPushPull()        do { ODCONCbits.ODCC3 = 0; } while(0)
+#define OPA_P_IN_SetOpenDrain()       do { ODCONCbits.ODCC3 = 1; } while(0)
+#define OPA_P_IN_SetAnalogMode()      do { ANSELCbits.ANSC3 = 1; } while(0)
+#define OPA_P_IN_SetDigitalMode()     do { ANSELCbits.ANSC3 = 0; } while(0)
 // get/set IO_RC6 aliases
 #define PressureN_TRIS                 TRISCbits.TRISC6
 #define PressureN_LAT                  LATCbits.LATC6
@@ -228,27 +201,6 @@
 #define PressureN_SetOpenDrain()       do { ODCONCbits.ODCC6 = 1; } while(0)
 #define PressureN_SetAnalogMode()      do { ANSELCbits.ANSC6 = 1; } while(0)
 #define PressureN_SetDigitalMode()     do { ANSELCbits.ANSC6 = 0; } while(0)
-
-// get/set IO_RC7 aliases
-#define PressureP_TRIS                 TRISCbits.TRISC7
-#define PressureP_LAT                  LATCbits.LATC7
-#define PressureP_PORT                 PORTCbits.RC7
-#define PressureP_WPU                  WPUCbits.WPUC7
-#define PressureP_OD                   ODCONCbits.ODCC7
-#define PressureP_ANS                  ANSELCbits.ANSC7
-#define PressureP_SetHigh()            do { LATCbits.LATC7 = 1; } while(0)
-#define PressureP_SetLow()             do { LATCbits.LATC7 = 0; } while(0)
-#define PressureP_Toggle()             do { LATCbits.LATC7 = ~LATCbits.LATC7; } while(0)
-#define PressureP_GetValue()           PORTCbits.RC7
-#define PressureP_SetDigitalInput()    do { TRISCbits.TRISC7 = 1; } while(0)
-#define PressureP_SetDigitalOutput()   do { TRISCbits.TRISC7 = 0; } while(0)
-#define PressureP_SetPullup()          do { WPUCbits.WPUC7 = 1; } while(0)
-#define PressureP_ResetPullup()        do { WPUCbits.WPUC7 = 0; } while(0)
-#define PressureP_SetPushPull()        do { ODCONCbits.ODCC7 = 0; } while(0)
-#define PressureP_SetOpenDrain()       do { ODCONCbits.ODCC7 = 1; } while(0)
-#define PressureP_SetAnalogMode()      do { ANSELCbits.ANSC7 = 1; } while(0)
-#define PressureP_SetDigitalMode()     do { ANSELCbits.ANSC7 = 0; } while(0)
-
 /**
  * @ingroup  pinsdriver
  * @brief GPIO and peripheral I/O initialization
